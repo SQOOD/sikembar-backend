@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken'
 import { APP_SECRET, tokens } from './constants'
-import { Token } from '../types'
+import { Token } from '../Context'
 import { errors } from './errors'
 
 export const handleError = (error: any) => {

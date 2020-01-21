@@ -1,9 +1,9 @@
 import { rule } from 'graphql-shield'
 import { getUserId } from '../utils/constants'
-import { Context } from '../types'
+import { Context } from '../Context'
 
 export const rules = {
-  isAuthenticatedUser: rule()((_parent, _args, ctx: Context) => {
+  isAuthenticatedUser: rule({ cache: 'contextual' })((_parent, _args, ctx: Context) => {
     try {
       const userId = getUserId(ctx)
       return Boolean(userId)
@@ -11,19 +11,59 @@ export const rules = {
       return e
     }
   }),
-  isPostOwner: rule()(async (_parent, { id }, ctx: Context) => {
-    try {
-      const userId = getUserId(ctx)
-      const author = await ctx.photon.posts
-        .findOne({
-          where: {
-            id,
-          },
-        })
-        .author()
-      return userId === author.id
-    } catch (e) {
-      return e
-    }
+
+  isStaff: rule()(async (_parent, { id }, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users
+      .findOne({
+        where: {
+          id: userId,
+        },
+      })
+    return Boolean(user.role === 'STAFF');
+  }),
+
+  isAdmin: rule()(async (_parent, { id }, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users
+      .findOne({
+        where: {
+          id: userId,
+        },
+      })
+    return Boolean(user.role === 'ADMIN');
+  }),
+
+  isMine: rule()(async (_parent, { id }, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users
+      .findOne({
+        where: {
+          id,
+        },
+      })
+    return user.id === userId
+  }),
+
+  isVendor: rule()(async (_parent, { id }, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users
+      .findOne({
+        where: {
+          id: userId,
+        },
+      })
+    return Boolean(user.role === 'VENDOR');
+  }),
+
+  isMiner: rule()(async (_parent, { id }, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users
+      .findOne({
+        where: {
+          id: userId,
+        },
+      })
+    return Boolean(user.role === 'MINER');
   }),
 }

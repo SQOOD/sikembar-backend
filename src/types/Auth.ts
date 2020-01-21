@@ -4,23 +4,29 @@ import {
   generateAccessToken,
   generateRefreshToken,
   handleError,
-} from '../../utils/helpers'
-import { errors } from '../../utils/errors'
+} from '../utils/helpers'
+import { errors } from '../utils/errors'
 
 export const signup = mutationField('signup', {
   type: 'AuthPayload',
   args: {
-    name: stringArg({ nullable: true }),
-    email: stringArg({ required: true }),
+    username: stringArg({ required: true }),
     password: stringArg({ required: true }),
+    company_type: stringArg({ required: true }),
+    picture: stringArg({ nullable : true }),
+    role: stringArg({ required: true }),
+    commodity: stringArg({ required: true }),
   },
-  resolve: async (_parent, { name, email, password }, ctx) => {
+  resolve: async (_parent, { username, password, company_type, picture, role, commodity }, ctx) => {
     const hashedPassword = await hash(password, 10)
     const user = await ctx.photon.users.create({
       data: {
-        name,
-        email,
+        username,
         password: hashedPassword,
+        company_type,
+        picture,
+        role,
+        commodity,
       },
     })
 
@@ -41,15 +47,15 @@ export const signup = mutationField('signup', {
 export const login = mutationField('login', {
   type: 'AuthPayload',
   args: {
-    email: stringArg({ required: true }),
+    username: stringArg({ required: true }),
     password: stringArg({ required: true }),
   },
-  resolve: async (_parent, { email, password }, ctx) => {
+  resolve: async (_parent, { username, password }, ctx) => {
     let user = null
     try {
       user = await ctx.photon.users.findOne({
         where: {
-          email,
+          username,
         },
       })
     } catch (e) {

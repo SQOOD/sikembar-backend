@@ -1,5 +1,5 @@
 import { verify } from 'jsonwebtoken'
-import { Context, Token } from '../types'
+import { Context, Token } from '../Context'
 import { errors } from './errors'
 import { handleError } from './helpers'
 

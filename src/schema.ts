@@ -1,8 +1,8 @@
 import { nexusPrismaPlugin } from 'nexus-prisma'
 import { makeSchema } from 'nexus'
 import { join } from 'path'
-import * as allTypes from './resolvers'
-import { Context } from './types'
+import * as allTypes from './types'
+import { Context } from './Context'
 
 const nexusPrisma = nexusPrismaPlugin({
   photon: (ctx: Context) => ctx.photon,
@@ -26,7 +26,7 @@ export const schema = makeSchema({
         alias: 'photon',
       },
       {
-        source: join(__dirname, 'types.ts'),
+        source: join(__dirname, 'Context.ts'),
         alias: 'ctx',
       },
     ],

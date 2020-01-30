@@ -6,6 +6,7 @@ export const LostProfit = objectType({
     t.model.id()
     t.model.report_finance()
     t.model.detail()
+    t.model.category()
     t.model.value()
   },
 })

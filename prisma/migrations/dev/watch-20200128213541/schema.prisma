@@ -11,23 +11,40 @@
     id            String  @default(cuid()) @id
     username      String  @unique
     password      String
-    company_type  CompanyType
-    picture       String?
-    role          Role @default(MINER)
-    commodity     Commodity
+    company_permission    CompanyPermission @default(MINERBA)
+    picture       String? @default("")
+    role          Role 
+    commodity     Commodity @default(NOT_AVAILABLE)
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
+    wiup          String? @default("")
+    npwp          String? @default("") 
+    email         String? @default("")
+    phone         String? @default("")
+    company_type  CompanyType? @default(NOT_AVAILABLE)
+    company_name  String? @default("")
+    address       String? @default("")
+    report_finance ReportFinance[]
+    report_good ReportGood[]
   }
 
-  enum CompanyType {
+  enum CompanyPermission {
     IUP
     IUPOPK
+    MINERBA
+  }
+  enum CompanyType {
+    PT
+    CV
+    NOT_AVAILABLE
   }
 
   enum Role {
     MINER
-    MERCHANT
-    STAFF
+    VENDOR
+    EVALUATOR
+    SUPERINTENDENT
+    ADMIN
   }
 
   enum Commodity {
@@ -193,7 +210,7 @@
     JUNI
     JULI
     AGUSTUS
-    SEPTERMBER
+    SEPTEMBER
     OKTOBER
     NOVEMBER
     DESEMBER
@@ -233,11 +250,25 @@
     term  Term @default(TAHUNAN)
     year  Int
     report_type ReportType
-    currency Currency
+    currency Currency @default(USD)
     rate Int
     approved Boolean @default(false)
     flag_for_deletion Boolean @default(false)
     file_path String
+    budgets Budget[]
+    royalty Royalty[]
+    capital_budget CapitalBudget[]
+    cashflow Cashflow[]
+    assumption Assumption[]
+    fuel Fuel?
+    cost_of_good CostOfGood[]
+    investment Investment[]
+    other_finance OtherFinance[]
+    lost_profit LostProfit[]
+    operation_cost OperationCost[]
+    state_revenue StateRevenue[]
+    balance Balance[]
+    source_of_funding SourceOfFunding[]
   }
 
   model ReportGood {
@@ -258,7 +289,20 @@
     report_finance ReportFinance
     detail String
     value Int
-    category String
+  }
+
+  model Supply {
+    id    String  @default(cuid()) @id
+    report_finance ReportFinance
+    detail String
+    value Int
+  }
+
+  model CapitalBudget {
+    id    String  @default(cuid()) @id
+    report_finance ReportFinance
+    detail String
+    value Int
   }
 
   model Cashflow {
@@ -371,8 +415,19 @@
     country_of_origin Country?
     province_of_origin Province?
     district_of_origin District?
+    current_district District?
     tkdn Int
     tkdn_type TKDNType
+  }
+
+  model Good {
+    id    String  @default(cuid()) @id
+    user User
+    name String
+    tkdn Int
+    description String
+    category ProcurementCategory?
+    picture String?
   }
 
   enum Country {
@@ -585,6 +640,7 @@
   enum TKDNType {
     SA
     SI
+    SUCOFFINDO
   }
 
   enum UnitPricetype {

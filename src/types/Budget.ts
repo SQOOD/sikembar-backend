@@ -7,7 +7,6 @@ export const Budget = objectType({
     t.model.report_finance()
     t.model.detail()
     t.model.value()
-    t.model.category()
   },
 })
 

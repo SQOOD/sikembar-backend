@@ -1,28 +1,35 @@
-# Migration `watch-20200120103046`
+# Migration `watch-20200127163019`
 
-This migration has been generated at 1/20/2020, 10:30:49 AM.
+This migration has been generated at 1/27/2020, 4:30:23 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
 
 ```sql
 CREATE TABLE `sikembar_test`.`User` (
-  `commodity` varchar(191) NOT NULL DEFAULT 'BATUBARA' ,
-  `company_type` varchar(191) NOT NULL DEFAULT 'IUP' ,
+  `address` varchar(191)   ,
+  `commodity` varchar(191) NOT NULL DEFAULT 'NOT_AVAILABLE' ,
+  `company_name` varchar(191)   ,
+  `company_permission` varchar(191) NOT NULL DEFAULT 'MINERBA' ,
+  `company_type` varchar(191)   ,
   `createdAt` datetime(3) NOT NULL DEFAULT '1970-01-01 00:00:00' ,
+  `email` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
+  `npwp` varchar(191)   ,
   `password` varchar(191) NOT NULL DEFAULT '' ,
+  `phone` varchar(191)   ,
   `picture` varchar(191)   ,
   `role` varchar(191) NOT NULL DEFAULT 'MINER' ,
   `updatedAt` datetime(3) NOT NULL DEFAULT '1970-01-01 00:00:00' ,
   `username` varchar(191) NOT NULL DEFAULT '' ,
+  `wiup` varchar(191)   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`ReportFinance` (
   `approved` boolean NOT NULL DEFAULT false ,
-  `currency` varchar(191) NOT NULL DEFAULT 'IDR' ,
+  `currency` varchar(191) NOT NULL DEFAULT 'USD' ,
   `file_path` varchar(191) NOT NULL DEFAULT '' ,
   `flag_for_deletion` boolean NOT NULL DEFAULT false ,
   `id` varchar(191) NOT NULL  ,
@@ -49,7 +56,14 @@ CREATE TABLE `sikembar_test`.`ReportGood` (
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Budget` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `id` varchar(191) NOT NULL  ,
+  `value` int NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+)
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `sikembar_test`.`CapitalBudget` (
   `detail` varchar(191) NOT NULL DEFAULT '' ,
   `id` varchar(191) NOT NULL  ,
   `value` int NOT NULL DEFAULT 0 ,
@@ -168,6 +182,7 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE TABLE `sikembar_test`.`Procurement` (
   `category` varchar(191) NOT NULL DEFAULT 'A' ,
   `country_of_origin` varchar(191)   ,
+  `current_district` varchar(191)   ,
   `detail` varchar(191) NOT NULL DEFAULT '' ,
   `district_of_origin` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
@@ -184,6 +199,17 @@ CREATE TABLE `sikembar_test`.`Procurement` (
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE `sikembar_test`.`Good` (
+  `category` varchar(191)   ,
+  `description` varchar(191) NOT NULL DEFAULT '' ,
+  `id` varchar(191) NOT NULL  ,
+  `name` varchar(191) NOT NULL DEFAULT '' ,
+  `picture` varchar(191)   ,
+  `tkdn` int NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+)
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 ALTER TABLE `sikembar_test`.`ReportFinance` ADD COLUMN `user` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTRICT;
 
@@ -192,6 +218,9 @@ ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTR
 
 ALTER TABLE `sikembar_test`.`Budget` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
+
+ALTER TABLE `sikembar_test`.`CapitalBudget` ADD COLUMN `reportFinance` varchar(191)  ,
+ADD FOREIGN KEY (`reportFinance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE SET NULL;
 
 ALTER TABLE `sikembar_test`.`Cashflow` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
@@ -232,14 +261,19 @@ ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`i
 ALTER TABLE `sikembar_test`.`Procurement` ADD COLUMN `report_good` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_good`) REFERENCES `sikembar_test`.`ReportGood`(`id`) ON DELETE RESTRICT;
 
+ALTER TABLE `sikembar_test`.`Good` ADD COLUMN `user` varchar(191) NOT NULL ,
+ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTRICT;
+
 CREATE UNIQUE INDEX `User.username` ON `sikembar_test`.`User`(`username`)
+
+CREATE UNIQUE INDEX `Fuel_report_finance` ON `sikembar_test`.`Fuel`(`report_finance`)
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration watch-20200120101840..watch-20200120103046
+migration watch-20200127151405..watch-20200127163019
 --- datamodel.dml
 +++ datamodel.dml
 @@ -1,7 +1,7 @@
@@ -250,21 +284,39 @@ migration watch-20200120101840..watch-20200120103046
    }
    generator photon {
      provider = "photonjs"
-@@ -21,14 +21,17 @@
-   enum CompanyType {
+@@ -23,8 +23,10 @@
+     phone         String? @default("")
+     company_type  CompanyType? @default(NOT_AVAILABLE)
+     company_name  String? @default("")
+     address       String? @default("")
++    report_finance ReportFinance[]
++    report_good ReportGood[]
+   }
+   enum CompanyPermission {
      IUP
-     IUPOPK
-+    MINERBA
+@@ -252,9 +254,22 @@
+     rate Int
+     approved Boolean @default(false)
+     flag_for_deletion Boolean @default(false)
+     file_path String
+-    budgets Budget
++    budgets Budget[]
++    royalty Royalty[]
++    capital_budget CapitalBudget[]
++    cashflow Cashflow[]
++    assumption Assumption[]
++    fuel Fuel
++    cost_of_good CostOfGood[]
++    investment Investment[]
++    other_finance OtherFinance[]
++    lost_profit LostProfit[]
++    operation_cost OperationCost[]
++    state_revenue StateRevenue[]
++    balance Balance[]
++    source_of_funding SourceOfFunding[]
    }
-   enum Role {
-     MINER
-     MERCHANT
-     STAFF
-+    SUPERINTENDENT
-+    ADMIN
-   }
-   enum Commodity {
-   BATUBARA
+   model ReportGood {
+     id    String  @default(cuid()) @id
 ```
 
 

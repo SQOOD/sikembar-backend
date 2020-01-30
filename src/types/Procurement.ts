@@ -16,6 +16,7 @@ export const Procurement = objectType({
     t.model.country_of_origin()
     t.model.province_of_origin()
     t.model.district_of_origin()
+    t.model.current_district()
     t.model.tkdn()
     t.model.tkdn_type()
   },

@@ -12,7 +12,7 @@ export const rules = {
     }
   }),
 
-  isStaff: rule()(async (_parent, { id }, ctx) => {
+  isEvaluator: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
     const user = await ctx.photon.users
       .findOne({
@@ -20,7 +20,7 @@ export const rules = {
           id: userId,
         },
       })
-    return Boolean(user.role === 'STAFF');
+    return Boolean(user.role === 'EVALUATOR');
   }),
 
   isAdmin: rule()(async (_parent, { id }, ctx) => {

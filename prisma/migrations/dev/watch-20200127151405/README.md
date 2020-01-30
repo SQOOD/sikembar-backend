@@ -1,28 +1,35 @@
-# Migration `watch-20200120101840`
+# Migration `watch-20200127151405`
 
-This migration has been generated at 1/20/2020, 10:18:43 AM.
+This migration has been generated at 1/27/2020, 3:14:08 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
 
 ```sql
 CREATE TABLE `sikembar_test`.`User` (
-  `commodity` varchar(191) NOT NULL DEFAULT 'BATUBARA' ,
-  `company_type` varchar(191) NOT NULL DEFAULT 'IUP' ,
+  `address` varchar(191)   ,
+  `commodity` varchar(191) NOT NULL DEFAULT 'NOT_AVAILABLE' ,
+  `company_name` varchar(191)   ,
+  `company_permission` varchar(191) NOT NULL DEFAULT 'MINERBA' ,
+  `company_type` varchar(191)   ,
   `createdAt` datetime(3) NOT NULL DEFAULT '1970-01-01 00:00:00' ,
+  `email` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
+  `npwp` varchar(191)   ,
   `password` varchar(191) NOT NULL DEFAULT '' ,
+  `phone` varchar(191)   ,
   `picture` varchar(191)   ,
   `role` varchar(191) NOT NULL DEFAULT 'MINER' ,
   `updatedAt` datetime(3) NOT NULL DEFAULT '1970-01-01 00:00:00' ,
   `username` varchar(191) NOT NULL DEFAULT '' ,
+  `wiup` varchar(191)   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`ReportFinance` (
   `approved` boolean NOT NULL DEFAULT false ,
-  `currency` varchar(191) NOT NULL DEFAULT 'IDR' ,
+  `currency` varchar(191) NOT NULL DEFAULT 'USD' ,
   `file_path` varchar(191) NOT NULL DEFAULT '' ,
   `flag_for_deletion` boolean NOT NULL DEFAULT false ,
   `id` varchar(191) NOT NULL  ,
@@ -49,7 +56,14 @@ CREATE TABLE `sikembar_test`.`ReportGood` (
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Budget` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `id` varchar(191) NOT NULL  ,
+  `value` int NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+)
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `sikembar_test`.`CapitalBudget` (
   `detail` varchar(191) NOT NULL DEFAULT '' ,
   `id` varchar(191) NOT NULL  ,
   `value` int NOT NULL DEFAULT 0 ,
@@ -168,6 +182,7 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE TABLE `sikembar_test`.`Procurement` (
   `category` varchar(191) NOT NULL DEFAULT 'A' ,
   `country_of_origin` varchar(191)   ,
+  `current_district` varchar(191)   ,
   `detail` varchar(191) NOT NULL DEFAULT '' ,
   `district_of_origin` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
@@ -180,6 +195,17 @@ CREATE TABLE `sikembar_test`.`Procurement` (
   `unit_price_type` varchar(191) NOT NULL DEFAULT 'ONSITE' ,
   `volume_unit` varchar(191) NOT NULL DEFAULT 'OZ' ,
   `volume_value` int NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+)
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `sikembar_test`.`Good` (
+  `category` varchar(191)   ,
+  `description` varchar(191) NOT NULL DEFAULT '' ,
+  `id` varchar(191) NOT NULL  ,
+  `name` varchar(191) NOT NULL DEFAULT '' ,
+  `picture` varchar(191)   ,
+  `tkdn` int NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -232,17 +258,22 @@ ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`i
 ALTER TABLE `sikembar_test`.`Procurement` ADD COLUMN `report_good` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_good`) REFERENCES `sikembar_test`.`ReportGood`(`id`) ON DELETE RESTRICT;
 
+ALTER TABLE `sikembar_test`.`Good` ADD COLUMN `user` varchar(191) NOT NULL ,
+ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTRICT;
+
 CREATE UNIQUE INDEX `User.username` ON `sikembar_test`.`User`(`username`)
+
+CREATE UNIQUE INDEX `Budget_report_finance` ON `sikembar_test`.`Budget`(`report_finance`)
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration ..watch-20200120101840
+migration ..watch-20200127151405
 --- datamodel.dml
 +++ datamodel.dml
-@@ -1,0 +1,616 @@
+@@ -1,0 +1,649 @@
 +  datasource db {
 +    provider = "mysql"
 +    url      = "mysql://root:princess32@localhost:3306/sikembar_test"
@@ -256,23 +287,38 @@ migration ..watch-20200120101840
 +    id            String  @default(cuid()) @id
 +    username      String  @unique
 +    password      String
-+    company_type  CompanyType
-+    picture       String?
-+    role          Role @default(MINER)
-+    commodity     Commodity
++    company_permission    CompanyPermission @default(MINERBA)
++    picture       String? @default("")
++    role          Role 
++    commodity     Commodity @default(NOT_AVAILABLE)
 +    createdAt     DateTime @default(now())
 +    updatedAt     DateTime @updatedAt
++    wiup          String? @default("")
++    npwp          String? @default("") 
++    email         String? @default("")
++    phone         String? @default("")
++    company_type  CompanyType? @default(NOT_AVAILABLE)
++    company_name  String? @default("")
++    address       String? @default("")
 +  }
 +
-+  enum CompanyType {
++  enum CompanyPermission {
 +    IUP
 +    IUPOPK
++    MINERBA
++  }
++  enum CompanyType {
++    PT
++    CV
++    NOT_AVAILABLE
 +  }
 +
 +  enum Role {
 +    MINER
-+    MERCHANT
-+    STAFF
++    VENDOR
++    EVALUATOR
++    SUPERINTENDENT
++    ADMIN
 +  }
 +
 +  enum Commodity {
@@ -438,7 +484,7 @@ migration ..watch-20200120101840
 +    JUNI
 +    JULI
 +    AGUSTUS
-+    SEPTERMBER
++    SEPTEMBER
 +    OKTOBER
 +    NOVEMBER
 +    DESEMBER
@@ -478,11 +524,12 @@ migration ..watch-20200120101840
 +    term  Term @default(TAHUNAN)
 +    year  Int
 +    report_type ReportType
-+    currency Currency
++    currency Currency @default(USD)
 +    rate Int
 +    approved Boolean @default(false)
 +    flag_for_deletion Boolean @default(false)
 +    file_path String
++    budgets Budget
 +  }
 +
 +  model ReportGood {
@@ -503,7 +550,12 @@ migration ..watch-20200120101840
 +    report_finance ReportFinance
 +    detail String
 +    value Int
-+    category String
++  }
++
++  model CapitalBudget {
++    id    String  @default(cuid()) @id
++    detail String
++    value Int
 +  }
 +
 +  model Cashflow {
@@ -616,8 +668,19 @@ migration ..watch-20200120101840
 +    country_of_origin Country?
 +    province_of_origin Province?
 +    district_of_origin District?
++    current_district District?
 +    tkdn Int
 +    tkdn_type TKDNType
++  }
++
++  model Good {
++    id    String  @default(cuid()) @id
++    user User
++    name String
++    tkdn Int
++    description String
++    category ProcurementCategory?
++    picture String?
 +  }
 +
 +  enum Country {
@@ -830,6 +893,7 @@ migration ..watch-20200120101840
 +  enum TKDNType {
 +    SA
 +    SI
++    SUCOFFINDO
 +  }
 +
 +  enum UnitPricetype {

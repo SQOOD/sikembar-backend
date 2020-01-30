@@ -3,10 +3,20 @@
   "steps": [
     {
       "tag": "CreateEnum",
-      "enum": "CompanyType",
+      "enum": "CompanyPermission",
       "values": [
         "IUP",
-        "IUPOPK"
+        "IUPOPK",
+        "MINERBA"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "CompanyType",
+      "values": [
+        "PT",
+        "CV",
+        "NOT_AVAILABLE"
       ]
     },
     {
@@ -14,8 +24,10 @@
       "enum": "Role",
       "values": [
         "MINER",
-        "MERCHANT",
-        "STAFF"
+        "VENDOR",
+        "EVALUATOR",
+        "SUPERINTENDENT",
+        "ADMIN"
       ]
     },
     {
@@ -187,7 +199,7 @@
         "JUNI",
         "JULI",
         "AGUSTUS",
-        "SEPTERMBER",
+        "SEPTEMBER",
         "OKTOBER",
         "NOVEMBER",
         "DESEMBER"
@@ -453,7 +465,8 @@
       "enum": "TKDNType",
       "values": [
         "SA",
-        "SI"
+        "SI",
+        "SUCOFFINDO"
       ]
     },
     {
@@ -587,22 +600,8 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "company_type",
-      "type": "CompanyType",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "picture",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "role",
-      "type": "Role",
+      "field": "company_permission",
+      "type": "CompanyPermission",
       "arity": "Required"
     },
     {
@@ -611,7 +610,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "role"
+          "field": "company_permission"
         },
         "directive": "default"
       }
@@ -623,12 +622,51 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "role"
+          "field": "company_permission"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "MINER"
+      "value": "MINERBA"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "picture",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "picture"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "picture"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "role",
+      "type": "Role",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
@@ -636,6 +674,31 @@
       "field": "commodity",
       "type": "Commodity",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "commodity"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "commodity"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "NOT_AVAILABLE"
     },
     {
       "tag": "CreateField",
@@ -686,6 +749,244 @@
         },
         "directive": "updatedAt"
       }
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "wiup",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "wiup"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "wiup"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "npwp",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "npwp"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "npwp"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "email",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "email"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "email"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "phone",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "phone"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "phone"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "company_type",
+      "type": "CompanyType",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "company_type"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "company_type"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "NOT_AVAILABLE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "company_name",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "company_name"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "company_name"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "address",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "address"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "address"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "report_finance",
+      "type": "ReportFinance",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "report_good",
+      "type": "ReportGood",
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -795,6 +1096,31 @@
       "arity": "Required"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ReportFinance",
+          "field": "currency"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ReportFinance",
+          "field": "currency"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "USD"
+    },
+    {
       "tag": "CreateField",
       "model": "ReportFinance",
       "field": "rate",
@@ -871,6 +1197,104 @@
       "field": "file_path",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "budgets",
+      "type": "Budget",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "royalty",
+      "type": "Royalty",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "capital_budget",
+      "type": "CapitalBudget",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "cashflow",
+      "type": "Cashflow",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "assumption",
+      "type": "Assumption",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "fuel",
+      "type": "Fuel",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "cost_of_good",
+      "type": "CostOfGood",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "investment",
+      "type": "Investment",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "other_finance",
+      "type": "OtherFinance",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "lost_profit",
+      "type": "LostProfit",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "operation_cost",
+      "type": "OperationCost",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "state_revenue",
+      "type": "StateRevenue",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "balance",
+      "type": "Balance",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReportFinance",
+      "field": "source_of_funding",
+      "type": "SourceOfFunding",
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -1116,21 +1540,150 @@
       "model": "Budget",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Budget",
       "field": "value",
       "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Supply"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Supply",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Supply",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Supply",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Supply",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Supply",
+      "field": "report_finance",
+      "type": "ReportFinance",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Budget",
-      "field": "category",
+      "model": "Supply",
+      "field": "detail",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Supply",
+      "field": "value",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "CapitalBudget"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CapitalBudget",
+      "field": "id",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CapitalBudget",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CapitalBudget",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CapitalBudget",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "CapitalBudget",
+      "field": "report_finance",
+      "type": "ReportFinance",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CapitalBudget",
+      "field": "detail",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CapitalBudget",
+      "field": "value",
+      "type": "Int",
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1191,21 +1744,21 @@
       "model": "Cashflow",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Cashflow",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Cashflow",
       "field": "category",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1266,7 +1819,7 @@
       "model": "Assumption",
       "field": "currency",
       "type": "Currency",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -1291,49 +1844,56 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "IDR"
+      "value": "USD"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "rate",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Assumption",
+      "field": "detail",
+      "type": "String",
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "volume_unit",
       "type": "VolumeUnit",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "volume_value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "price",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "cut_off",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Assumption",
       "field": "cut_off_unit",
       "type": "CutOffUnit",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1394,21 +1954,21 @@
       "model": "Fuel",
       "field": "currency",
       "type": "Currency",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Fuel",
       "field": "rate",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Fuel",
       "field": "price",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1469,21 +2029,14 @@
       "model": "CostOfGood",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "CostOfGood",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "CostOfGood",
-      "field": "category",
-      "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1544,14 +2097,14 @@
       "model": "Investment",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Investment",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1612,14 +2165,14 @@
       "model": "OtherFinance",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "OtherFinance",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1680,14 +2233,21 @@
       "model": "LostProfit",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "LostProfit",
+      "field": "category",
+      "type": "String",
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "LostProfit",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1748,14 +2308,14 @@
       "model": "Royalty",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Royalty",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1816,14 +2376,14 @@
       "model": "OperationCost",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "OperationCost",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1884,21 +2444,21 @@
       "model": "StateRevenue",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "StateRevenue",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "StateRevenue",
       "field": "category",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1959,28 +2519,28 @@
       "model": "Balance",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Balance",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Balance",
       "field": "sub_category",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Balance",
       "field": "category",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -2041,21 +2601,14 @@
       "model": "SourceOfFunding",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "SourceOfFunding",
       "field": "value",
       "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "SourceOfFunding",
-      "field": "category",
-      "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -2116,56 +2669,56 @@
       "model": "Procurement",
       "field": "detail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "spec",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "volume_unit",
       "type": "VolumeUnit",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "volume_value",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "unit_price_type",
       "type": "UnitPricetype",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "unit_price",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "category",
       "type": "ProcurementCategory",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "project_area",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -2191,16 +2744,112 @@
     {
       "tag": "CreateField",
       "model": "Procurement",
+      "field": "current_district",
+      "type": "District",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Procurement",
       "field": "tkdn",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Procurement",
       "field": "tkdn_type",
       "type": "TKDNType",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Good"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "id",
+      "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Good",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Good",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Good",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "tkdn",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "description",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "category",
+      "type": "ProcurementCategory",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "picture",
+      "type": "String",
+      "arity": "Optional"
     }
   ]
 }

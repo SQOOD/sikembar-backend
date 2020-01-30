@@ -7,6 +7,7 @@ export const Assumption = objectType({
     t.model.report_finance()
     t.model.currency()
     t.model.rate()
+    t.model.detail()
     t.model.volume_unit()
     t.model.volume_value()
     t.model.price()

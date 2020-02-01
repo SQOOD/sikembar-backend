@@ -7,7 +7,6 @@ export const Procurement = objectType({
     t.model.report_good()
     t.model.detail()
     t.model.spec()
-    t.model.volume_unit()
     t.model.volume_value()
     t.model.unit_price_type()
     t.model.unit_price()
@@ -17,6 +16,7 @@ export const Procurement = objectType({
     t.model.province_of_origin()
     t.model.district_of_origin()
     t.model.current_district()
+    t.model.vendor_type()
     t.model.tkdn()
     t.model.tkdn_type()
   },

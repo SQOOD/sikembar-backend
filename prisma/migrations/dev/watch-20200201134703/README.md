@@ -1,6 +1,6 @@
-# Migration `watch-20200127163019`
+# Migration `watch-20200201134703`
 
-This migration has been generated at 1/27/2020, 4:30:23 PM.
+This migration has been generated at 2/1/2020, 1:47:05 PM.
 You can check out the [state of the schema](./schema.prisma) after the migration.
 
 ## Database Steps
@@ -56,145 +56,153 @@ CREATE TABLE `sikembar_test`.`ReportGood` (
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Budget` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
+  PRIMARY KEY (`id`)
+)
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `sikembar_test`.`Supply` (
+  `detail` varchar(191)   ,
+  `id` varchar(191) NOT NULL  ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`CapitalBudget` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Cashflow` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `category` varchar(191)   ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Assumption` (
-  `currency` varchar(191) NOT NULL DEFAULT 'IDR' ,
-  `cut_off` int NOT NULL DEFAULT 0 ,
-  `cut_off_unit` varchar(191) NOT NULL DEFAULT 'PERSENTASE' ,
+  `currency` varchar(191)   ,
+  `cut_off` int   ,
+  `cut_off_unit` varchar(191)   ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `price` int NOT NULL DEFAULT 0 ,
-  `rate` int NOT NULL DEFAULT 0 ,
-  `volume_unit` varchar(191) NOT NULL DEFAULT 'OZ' ,
-  `volume_value` int NOT NULL DEFAULT 0 ,
+  `price` int   ,
+  `rate` int   ,
+  `volume_unit` varchar(191)   ,
+  `volume_value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Fuel` (
-  `currency` varchar(191) NOT NULL DEFAULT 'IDR' ,
+  `currency` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `price` int NOT NULL DEFAULT 0 ,
-  `rate` int NOT NULL DEFAULT 0 ,
+  `price` int   ,
+  `rate` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`CostOfGood` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Investment` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`OtherFinance` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`LostProfit` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `category` varchar(191)   ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Royalty` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`OperationCost` (
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`StateRevenue` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `category` varchar(191)   ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Balance` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `category` varchar(191)   ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `sub_category` varchar(191) NOT NULL DEFAULT '' ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `sub_category` varchar(191)   ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`SourceOfFunding` (
-  `category` varchar(191) NOT NULL DEFAULT '' ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `value` int NOT NULL DEFAULT 0 ,
+  `value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `sikembar_test`.`Procurement` (
-  `category` varchar(191) NOT NULL DEFAULT 'A' ,
+  `category` varchar(191)   ,
   `country_of_origin` varchar(191)   ,
   `current_district` varchar(191)   ,
-  `detail` varchar(191) NOT NULL DEFAULT '' ,
+  `detail` varchar(191)   ,
   `district_of_origin` varchar(191)   ,
   `id` varchar(191) NOT NULL  ,
-  `project_area` varchar(191) NOT NULL DEFAULT '' ,
+  `project_area` varchar(191)   ,
   `province_of_origin` varchar(191)   ,
-  `spec` varchar(191) NOT NULL DEFAULT '' ,
-  `tkdn` int NOT NULL DEFAULT 0 ,
-  `tkdn_type` varchar(191) NOT NULL DEFAULT 'SA' ,
-  `unit_price` int NOT NULL DEFAULT 0 ,
-  `unit_price_type` varchar(191) NOT NULL DEFAULT 'ONSITE' ,
-  `volume_unit` varchar(191) NOT NULL DEFAULT 'OZ' ,
-  `volume_value` int NOT NULL DEFAULT 0 ,
+  `spec` varchar(191)   ,
+  `tkdn` int   ,
+  `tkdn_type` varchar(191)   ,
+  `unit_price` int   ,
+  `unit_price_type` varchar(191)   ,
+  `vendor_type` varchar(191)   ,
+  `volume_value` int   ,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -219,8 +227,11 @@ ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTR
 ALTER TABLE `sikembar_test`.`Budget` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
 
-ALTER TABLE `sikembar_test`.`CapitalBudget` ADD COLUMN `reportFinance` varchar(191)  ,
-ADD FOREIGN KEY (`reportFinance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE SET NULL;
+ALTER TABLE `sikembar_test`.`Supply` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
+ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
+
+ALTER TABLE `sikembar_test`.`CapitalBudget` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
+ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
 
 ALTER TABLE `sikembar_test`.`Cashflow` ADD COLUMN `report_finance` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`report_finance`) REFERENCES `sikembar_test`.`ReportFinance`(`id`) ON DELETE RESTRICT;
@@ -265,15 +276,13 @@ ALTER TABLE `sikembar_test`.`Good` ADD COLUMN `user` varchar(191) NOT NULL ,
 ADD FOREIGN KEY (`user`) REFERENCES `sikembar_test`.`User`(`id`) ON DELETE RESTRICT;
 
 CREATE UNIQUE INDEX `User.username` ON `sikembar_test`.`User`(`username`)
-
-CREATE UNIQUE INDEX `Fuel_report_finance` ON `sikembar_test`.`Fuel`(`report_finance`)
 ```
 
 ## Changes
 
 ```diff
 diff --git schema.prisma schema.prisma
-migration watch-20200127151405..watch-20200127163019
+migration watch-20200131200732..watch-20200201134703
 --- datamodel.dml
 +++ datamodel.dml
 @@ -1,7 +1,7 @@
@@ -284,39 +293,60 @@ migration watch-20200127151405..watch-20200127163019
    }
    generator photon {
      provider = "photonjs"
-@@ -23,8 +23,10 @@
-     phone         String? @default("")
-     company_type  CompanyType? @default(NOT_AVAILABLE)
-     company_name  String? @default("")
-     address       String? @default("")
-+    report_finance ReportFinance[]
-+    report_good ReportGood[]
-   }
-   enum CompanyPermission {
-     IUP
-@@ -252,9 +254,22 @@
-     rate Int
-     approved Boolean @default(false)
-     flag_for_deletion Boolean @default(false)
-     file_path String
--    budgets Budget
-+    budgets Budget[]
-+    royalty Royalty[]
-+    capital_budget CapitalBudget[]
-+    cashflow Cashflow[]
-+    assumption Assumption[]
-+    fuel Fuel
-+    cost_of_good CostOfGood[]
-+    investment Investment[]
-+    other_finance OtherFinance[]
-+    lost_profit LostProfit[]
-+    operation_cost OperationCost[]
-+    state_revenue StateRevenue[]
-+    balance Balance[]
-+    source_of_funding SourceOfFunding[]
-   }
-   model ReportGood {
+@@ -406,9 +406,8 @@
      id    String  @default(cuid()) @id
+     report_good ReportGood
+     detail String?
+     spec String?
+-    volume_unit VolumeUnit?
+     volume_value Int?
+     unit_price_type UnitPricetype?
+     unit_price Int?
+     category ProcurementCategory?
+@@ -416,8 +415,9 @@
+     country_of_origin Country?
+     province_of_origin Province?
+     district_of_origin District?
+     current_district District?
++    vendor_type VendorType?
+     tkdn Int?
+     tkdn_type TKDNType?
+   }
+@@ -751,9 +751,9 @@
+     KABUPATEN_BENGKALIS
+     KABUPATEN_ROKAN_HILIR
+     KABUPATEN_KEPULAUAN_MERANTI
+     KOTA_PEKANBARU
+-    KOTA_D_U_M_A_I
++    KOTA_DUMAI
+     KABUPATEN_KERINCI
+     KABUPATEN_MERANGIN
+     KABUPATEN_SAROLANGUN
+     KABUPATEN_BATANG_HARI
+@@ -817,9 +817,9 @@
+     KABUPATEN_BINTAN
+     KABUPATEN_NATUNA
+     KABUPATEN_LINGGA
+     KABUPATEN_KEPULAUAN_ANAMBAS
+-    KOTA_B_A_T_A_M
++    KOTA_BATAM
+     KOTA_TANJUNG_PINANG
+     KABUPATEN_KEPULAUAN_SERIBU
+     KOTA_JAKARTA_SELATAN
+     KOTA_JAKARTA_TIMUR
+@@ -1192,8 +1192,13 @@
+     ONSITE
+     CIF
+   }
++  enum VendorType {
++    Producer
++    Supplier
++  }
++
+   enum ProcurementCategory {
+     A
+     B
+     C
 ```
 
 

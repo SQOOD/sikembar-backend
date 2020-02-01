@@ -13,6 +13,7 @@ export const ReportGood = objectType({
     t.model.approved()
     t.model.flag_for_deletion()
     t.model.file_path()
+    t.model.procurement()
   },
 })
 

@@ -126,3 +126,40 @@ export const login = mutationField('login', {
     }
   },
 })
+
+export const forgotpassword = mutationField('forgotpassword', {
+  type: 'AuthPayload',
+  args: {
+    username: stringArg({ required: true }),
+    email: stringArg({ required: true }),
+  },
+  resolve: async (_parent, { username, email }, ctx) => {
+    let user = null
+    try {
+      user = await ctx.photon.users.findOne({
+        where: {
+          username,
+        },
+      })
+    } catch (e) {
+      handleError(errors.invalidMail)
+    }
+
+    if (!user) handleError(errors.invalidMail)
+
+    const emailValid = await compare(email, user.email)
+    if (!emailValid) handleError(errors.invalidMail)
+
+    const [accessToken, refreshToken] = [
+      generateAccessToken(user.id),
+      generateRefreshToken(user.id),
+    ]
+    ctx.response.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+    })
+    return {
+      accessToken,
+      user,
+    }
+  },
+})

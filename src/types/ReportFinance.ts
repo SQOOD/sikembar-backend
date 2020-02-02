@@ -27,6 +27,8 @@ export const ReportFinance = objectType({
     t.model.state_revenue()
     t.model.balance()
     t.model.source_of_funding()
+    t.model.createdAt()
+    t.model.updatedAt()
   },
 })
 

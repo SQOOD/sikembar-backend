@@ -9,5 +9,6 @@ export const permissions = shield({
     '*': rules.isAuthenticatedUser,
     signup: rules.isAdmin,
     login: allow,
+    forgotpassword: allow,
   },
 })

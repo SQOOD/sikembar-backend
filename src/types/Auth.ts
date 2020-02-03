@@ -113,6 +113,14 @@ export const login = mutationField('login', {
     const passwordValid = await compare(password, user.password)
     if (!passwordValid) handleError(errors.invalidUser)
 
+    // const verifyCaptchaOptions = {
+    //   uri: 'https://www.google.com/recaptcha/api/siteverify',
+    //   json: true,
+    //   form: {
+    //       secret: '6LeFI9UUAAAAAGtdAbbobk0SG9w0Ur4TNwn1gYCd',
+    //       response: req.body.recaptchaToken
+    //   }
+    // };
     const [accessToken, refreshToken] = [
       generateAccessToken(user.id),
       generateRefreshToken(user.id),

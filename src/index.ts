@@ -53,7 +53,11 @@ server.express.post('/refresh-token', async (req, res) => {
 server.start(
   {
     port: PORT,
-    cors: false,
+    cors: {
+      credentials: true,
+      // origin: process.env.CLIENT_ORIGIN,
+      origin: '*',
+    },
   },
   () => console.log(`🚀 Server ready at http://localhost:${PORT}`)
 )

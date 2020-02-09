@@ -5,7 +5,7 @@ import * as allTypes from './types'
 import { Context } from './Context'
 
 const nexusPrisma = nexusPrismaPlugin({
-  photon: (ctx: Context) => ctx.photon,
+  prismaClient: (ctx: Context) => ctx.prisma,
 })
 
 export const schema = makeSchema({
@@ -22,8 +22,8 @@ export const schema = makeSchema({
   typegenAutoConfig: {
     sources: [
       {
-        source: '@prisma/photon',
-        alias: 'photon',
+        source: '@prisma/client',
+        alias: 'prisma',
       },
       {
         source: join(__dirname, 'Context.ts'),

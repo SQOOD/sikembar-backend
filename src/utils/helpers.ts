@@ -23,6 +23,21 @@ export const generateAccessToken = (userId: string) => {
   return accessToken
 }
 
+export const generateForgotToken = (userId: string) => {
+  const forgotToken = sign(
+    {
+      userId,
+      type: tokens.forgot.name,
+      timestamp: Date.now(),
+    },
+    APP_SECRET,
+    {
+      expiresIn: tokens.forgot.expiry,
+    }
+  )
+  return forgotToken
+}
+
 export const generateRefreshToken = (userId: string) => {
   const refreshToken = sign(
     {

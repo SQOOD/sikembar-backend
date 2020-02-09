@@ -1,5 +1,5 @@
 import { rule } from 'graphql-shield'
-import { getUserId } from '../utils/constants'
+import { getUserId, getUserForgot } from '../utils/constants'
 import { Context } from '../Context'
 
 export const rules = {
@@ -12,9 +12,18 @@ export const rules = {
     }
   }),
 
+  isForgotPassword: rule({ cache: 'contextual' })((_parent, _args, ctx: Context) => {
+    try {
+      const userId = getUserForgot(ctx)
+      return Boolean(userId)
+    } catch (e) {
+      return e
+    }
+  }),
+
   isEvaluator: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
-    const user = await ctx.photon.users
+    const user = await ctx.prisma.user
       .findOne({
         where: {
           id: userId,
@@ -25,7 +34,7 @@ export const rules = {
 
   isAdmin: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
-    const user = await ctx.photon.users
+    const user = await ctx.prisma.user
       .findOne({
         where: {
           id: userId,
@@ -36,7 +45,7 @@ export const rules = {
 
   isMine: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
-    const user = await ctx.photon.users
+    const user = await ctx.prisma.user
       .findOne({
         where: {
           id,
@@ -47,7 +56,7 @@ export const rules = {
 
   isVendor: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
-    const user = await ctx.photon.users
+    const user = await ctx.prisma.user
       .findOne({
         where: {
           id: userId,
@@ -58,7 +67,7 @@ export const rules = {
 
   isMiner: rule()(async (_parent, { id }, ctx) => {
     const userId = getUserId(ctx)
-    const user = await ctx.photon.users
+    const user = await ctx.prisma.user
       .findOne({
         where: {
           id: userId,

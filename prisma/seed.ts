@@ -1,8 +1,8 @@
-import { Photon } from '@prisma/photon'
-const photon = new Photon()
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 async function main() {
-  const user1 = await photon.users.create({
+  const user1 = await prisma.user.create({
     data: {
       username: '1234567890',
       password: '$2b$10$/1CrKPoRuMweAKDbR9s4xOdOy.cbcUOLkgk7KMBpkyExFQ.afnopq', // 1n14dmin
@@ -13,7 +13,7 @@ async function main() {
       company_name: 'KEMENTRIAN ESDM'
     },
   });
-  const user2 = await photon.users.create({
+  const user2 = await prisma.user.create({
     data: {
       username: 'perusahaan1',
       password: '$2b$10$/1CrKPoRuMweAKDbR9s4xOdOy.cbcUOLkgk7KMBpkyExFQ.afnopq', // 1n14dmin
@@ -27,5 +27,6 @@ async function main() {
 }
 
 main().finally(async () => {
-  await photon.disconnect()
+  await prisma
+  .disconnect()
 })

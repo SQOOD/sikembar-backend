@@ -21,6 +21,7 @@ export const User = objectType({
     t.model.address()
     t.model.report_finance()
     t.model.report_good()
+    t.model.good()
   },
 })
 

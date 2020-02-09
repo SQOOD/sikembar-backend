@@ -10,6 +10,10 @@ export const Good = objectType({
     t.model.description()
     t.model.category()
     t.model.picture()
+    t.model.approved()
+    t.model.min_price()
+    t.model.max_price()
+    t.model.custom()
   },
 })
 

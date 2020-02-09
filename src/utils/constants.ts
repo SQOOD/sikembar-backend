@@ -12,6 +12,10 @@ export const tokens = {
     name: 'REFRESH_TOKEN',
     expiry: '15d',
   },
+  forgot: {
+    name: 'FORGOT_TOKEN',
+    expiry: '45m',
+  },
 }
 
 export const isDev = () => process.env.NODE_ENV === 'development'
@@ -24,7 +28,22 @@ export const getUserId = (context: Context) => {
     const token = Authorization.replace('Bearer ', '')
     const verifiedToken = verify(token, APP_SECRET) as Token
 
-    if (!verifiedToken.userId && verifiedToken.type !== tokens.access.name)
+    if (!verifiedToken.userId || verifiedToken.type !== tokens.access.name)
+      handleError(errors.notAuthenticated)
+
+    return verifiedToken.userId
+  } catch (e) {
+    handleError(errors.notAuthenticated)
+  }
+}
+
+export const getUserForgot = (context: Context) => {
+  const Authorization = context.request.get('Authorization')
+  try {
+    const token = Authorization.replace('Bearer ', '')
+    const verifiedToken = verify(token, APP_SECRET) as Token
+
+    if (!verifiedToken.userId || verifiedToken.type !== tokens.forgot.name)
       handleError(errors.notAuthenticated)
 
     return verifiedToken.userId

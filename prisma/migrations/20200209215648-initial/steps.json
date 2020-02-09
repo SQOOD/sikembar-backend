@@ -1542,6 +1542,13 @@
       "arity": "List"
     },
     {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "good",
+      "type": "Good",
+      "arity": "List"
+    },
+    {
       "tag": "CreateModel",
       "model": "ReportFinance"
     },
@@ -3508,8 +3515,97 @@
       "tag": "CreateField",
       "model": "Good",
       "field": "picture",
+      "type": "GoodPicture",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "approved",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "min_price",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "max_price",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Good",
+      "field": "custom",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "GoodPicture"
+    },
+    {
+      "tag": "CreateField",
+      "model": "GoodPicture",
+      "field": "id",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "GoodPicture",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "GoodPicture",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "GoodPicture",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "GoodPicture",
+      "field": "good",
+      "type": "Good",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "GoodPicture",
+      "field": "image",
+      "type": "String",
+      "arity": "Required"
     }
   ]
 }

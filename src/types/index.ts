@@ -18,5 +18,6 @@ export * from './Balance';
 export * from './SourceOfFunding';
 export * from './Procurement';
 export * from './Good';
+export * from './GoodPicture';
 export * from './AuthPayload';
 export * from './Auth';

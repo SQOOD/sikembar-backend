@@ -207,7 +207,7 @@ export const forgotpassword = mutationField('forgotpassword', {
 
     if (resultCaptcha.data.success === true) {
       const [accessToken, refreshToken] = [
-        generateAccessToken(user.id),
+        generateForgotToken(user.id),
         generateRefreshToken(user.id)
       ]
       ctx.response.cookie('refreshToken', refreshToken, {

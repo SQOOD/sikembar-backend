@@ -10,7 +10,8 @@ async function main() {
       company_type: 'NOT_AVAILABLE',
       role: 'ADMIN',
       company_permission: 'MINERBA',
-      company_name: 'KEMENTRIAN ESDM'
+      company_name: 'KEMENTRIAN ESDM',
+      approved: true,
     },
   });
   const user2 = await prisma.user.create({
@@ -22,6 +23,7 @@ async function main() {
       company_name: 'CobaCoba',
       role: 'MINER',
       company_permission: 'IUP',
+      approved: true,
     },
   });
 }

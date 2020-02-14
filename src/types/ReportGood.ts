@@ -12,7 +12,6 @@ export const ReportGood = objectType({
     t.model.rate()
     t.model.approved()
     t.model.flag_for_deletion()
-    t.model.file_path()
     t.model.procurement()
     t.model.createdAt()
     t.model.updatedAt()

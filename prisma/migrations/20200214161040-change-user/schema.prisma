@@ -1,6 +1,6 @@
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:princess32@localhost:3306/sikembar_test"
+  url = "***"
 }
 
 generator client {
@@ -34,8 +34,7 @@ enum CompanyPermission {
   IUP
   IUPOPK
   MINERBA
-  SUPPLIER
-  KK
+  VENDOR
 }
 enum CompanyType {
   PT
@@ -198,7 +197,6 @@ enum Commodity {
   ONIK
   PASIR_LAUT
   NOT_AVAILABLE
-  MINERAL
 }
 
 enum Term {

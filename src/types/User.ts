@@ -8,6 +8,7 @@ export const User = objectType({
     t.model.password()
     t.model.company_permission()
     t.model.picture()
+    t.model.approved()
     t.model.role()
     t.model.commodity()
     t.model.createdAt()

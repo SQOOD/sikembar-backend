@@ -9,7 +9,6 @@ import { compare, hash } from 'bcrypt'
 import {
   generateAccessToken,
   generateRefreshToken,
-  generateForgotToken,
   handleError,
 } from '../utils/helpers'
 import { errors } from '../utils/errors'
@@ -100,6 +99,26 @@ export const signup = mutationField('signup', {
         httpOnly: true,
       })
 
+      const contentEmail = `<p style='text-align:center'><strong>Selamat Datang di Sikembar</strong></p><p>Jika anda tidak merasa menginginkan untuk menjadi administrator akun perusahaan anda dengan Akun Pengguna <strong>${user.username}</strong>, silahkan laporkan ke evaluator anda.</p>
+      <br/><br/>
+      <p>klik <a href='http://localhost:8080/change-password?${accessToken}'><strong>link ini</strong></a> untuk mengkonfirmasi dan mengganti kata sandi anda, atau salin dan tempel kode setelah paragraf ini di bilah alamat peremban anda :</p>
+      <br/><br/><br/>http://localhost:8080/change-password?${accessToken}`;
+
+      await axios({
+        method: 'post',
+        url: 'http://172.16.0.49:8080/api/v1/send-mail',
+        headers: {
+          'Authorization': 'bi0fu3l!23',
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          "receiver":email,
+          "subject":"Konfirmasi Perubahan Kata Sandi Sikembar",
+          "content":contentEmail})
+      }).then((response) => {
+        console.log('mail sent');
+      });
+
       const result = resultCaptcha.statusText
       return {
         accessToken,
@@ -132,6 +151,7 @@ export const login = mutationField('login', {
     }
 
     if (!user) handleError(errors.invalidUser)
+    if (!user.approved) handleError(errors.invalidUser)
 
     const passwordValid = await compare(password, user.password)
     if (!passwordValid) handleError(errors.invalidUser)
@@ -207,12 +227,33 @@ export const forgotpassword = mutationField('forgotpassword', {
 
     if (resultCaptcha.data.success === true) {
       const [accessToken, refreshToken] = [
-        generateForgotToken(user.id),
+        generateAccessToken(user.id),
         generateRefreshToken(user.id)
       ]
       ctx.response.cookie('refreshToken', refreshToken, {
         httpOnly: true,
       })
+
+      const contentEmail = `<p><strong>Peringatan :</strong>Jika anda tidak merasa ingin 
+      mengganti kata sandi, silahkan laporkan ke evaluator anda.</p>
+      <br/><br/>
+      <p>klik <a href='http://localhost:8080/change-password?${accessToken}'><strong>link ini</strong></a> untuk mengkonfirmasi dan mengganti kata sandi anda, atau salin dan tempel kode setelah paragraf ini di bilah alamat peremban anda :</p>
+      <br/><br/><br/>http://localhost:8080/change-password?${accessToken}`;
+
+      await axios({
+        method: 'post',
+        url: 'http://172.16.0.49:8080/api/v1/send-mail',
+        headers: {
+          'Authorization': 'bi0fu3l!23',
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          "receiver":email,
+          "subject":"Konfirmasi Perubahan Kata Sandi Sikembar",
+          "content":contentEmail})
+      }).then((response) => {
+        console.log('mail sent');
+      });
 
       const result = resultCaptcha.statusText
       return {

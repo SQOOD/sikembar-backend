@@ -1,6 +1,6 @@
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:princess32@localhost:3306/sikembar_test"
+  url = "***"
 }
 
 generator client {
@@ -259,7 +259,7 @@ model ReportFinance {
   rate Int
   approved Boolean @default(false)
   flag_for_deletion Boolean @default(false)
-  comment String?
+  comment String
   budgets Budget[]
   royalty Royalty[]
   capital_budget CapitalBudget[]
@@ -288,7 +288,7 @@ model ReportGood {
   rate Int
   approved Boolean @default(false)
   flag_for_deletion Boolean @default(false)
-  comment String?
+
   procurement Procurement[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

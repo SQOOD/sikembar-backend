@@ -12,6 +12,7 @@ export const ReportFinance = objectType({
     t.model.rate()
     t.model.approved()
     t.model.flag_for_deletion()
+    t.model.comment()
     t.model.budgets()
     t.model.royalty()
     t.model.capital_budget()

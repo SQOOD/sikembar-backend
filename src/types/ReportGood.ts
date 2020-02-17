@@ -12,6 +12,7 @@ export const ReportGood = objectType({
     t.model.rate()
     t.model.approved()
     t.model.flag_for_deletion()
+    t.model.comment()
     t.model.procurement()
     t.model.createdAt()
     t.model.updatedAt()
